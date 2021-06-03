@@ -1,34 +1,54 @@
-CREATE ROLE marketing
+CREATE ROLE IF NOT EXISTS marketing;
 
--- qui peut ajouter modifier et supprimer des produits--
-GRANT SELECT, INSERT, DELETE, UPDATE,
+-- peut ajouter modifier et supprimer des produits--
+
+GRANT SELECT, INSERT, DELETE, UPDATE
 ON gescom_afpa.products 
-TO marketing
--- qui peut ajouter modifier et supprimer des categories--
+TO marketing;
 
-GRANT SELECT, INSERT, DELETE, UPDATE,
+-- peut ajouter modifier et supprimer des categories--
+
+GRANT SELECT, INSERT, DELETE, UPDATE
 ON gescom_afpa.categories 
-TO marketing
+TO marketing;
 
---Consulter des commandes--
+--Peut consulter des commandes--
 
 GRANT SELECT 
 ON gescom_afpa.orders 
-TO marketing
+TO marketing;
 
---Consulter les details des commandes--
+--Peut consulter les details des commandes--
 
 GRANT SELECT
 ON gescom_afpa.orders_details
-TO marketing
+TO marketing;
 
--- Consulter les clients--
+-- Peut consulter les clients--
 
 GRANT SELECT
 ON gescom_afpa.customers 
-TO marketing
+TO marketing;
 
--- Create user crée utilisateur --
-Create user 'util market_1' identified by 'motdepasse1'
-Create user 'util market_2' identified by 'motdepasse2'
-Create user 'util market_3' identified by 'motdepasse3'
+-- crée les utilisateurs --
+Create user IF NOT EXISTS 'utilisateur1' identified by 'mdp1';
+Create user IF NOT EXISTS 'utilisateur2' identified by 'mdp2';
+Create user IF NOT EXISTS 'utilisateur3' identified by 'mdp3';
+
+-- Commande pour leur donner les privileges du role marketing
+
+GRANT marketing
+TO 'utilisateur1','utilisateur2','utilisateur3';
+
+-- verif des privileges du role marketing
+SHOW GRANTS FOR marketing;
+
+-- verif des privileges par utilisateur
+SHOW GRANTS FOR 'utilisateur1';
+SHOW GRANTS FOR 'utilisateur2';
+SHOW GRANTS FOR 'utilisateur3';
+
+-- Debug --
+
+set default ROLE 
+to 'utilisateur1','utilisateur2','utilisateur3';
